@@ -1,4 +1,4 @@
-#include <SDL.h>
+#include "grid.h"
 #include <SDL_render.h>
 #include <game.h>
 #include <stdio.h>
@@ -12,8 +12,9 @@ int initialize_window() {
     fprintf(stderr, "error: cannot initialize SDL: %s", SDL_GetError());
     return false;
   }
-  window = SDL_CreateWindow("window", SDL_WINDOWPOS_CENTERED,
-                            SDL_WINDOWPOS_CENTERED, 600, 400, SDL_WINDOW_SHOWN);
+  window = SDL_CreateWindow(window_title, SDL_WINDOWPOS_CENTERED,
+                            SDL_WINDOWPOS_CENTERED, window_width, window_height,
+                            SDL_WINDOW_SHOWN);
   if (!window) {
     fprintf(stderr, "error: cannot create SDL window: %s", SDL_GetError());
     return false;
@@ -51,10 +52,20 @@ void handle_event() {
 }
 
 void render() {
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  SDL_SetRenderDrawColor(renderer, grid_background.r, grid_background.g,
+                         grid_background.b, grid_background.a);
   SDL_RenderClear(renderer);
   /*
-   * render here
+   * Draw grid lines
    */
+  SDL_SetRenderDrawColor(renderer, grid_line_color.r, grid_line_color.g,
+                         grid_line_color.b, grid_line_color.a);
+
+  for (int x = 0; x < 1 + grid_width * grid_cell_size; x += grid_cell_size) {
+    SDL_RenderDrawLine(renderer, x, 0, x, window_height);
+  }
+  for (int y = 0; y < 1 + grid_height * grid_cell_size; y += grid_cell_size) {
+    SDL_RenderDrawLine(renderer, 0, y, window_width, y);
+  }
   SDL_RenderPresent(renderer);
 }
