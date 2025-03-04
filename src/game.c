@@ -2,6 +2,7 @@
 #include <SDL_render.h>
 #include <game.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
@@ -26,6 +27,8 @@ int initialize_window() {
     fprintf(stderr, "error: cannot create SDL renderer: %s", SDL_GetError());
     return false;
   }
+
+  grid_generate_random();
 
   return true;
 }
@@ -67,5 +70,6 @@ void render() {
   for (int y = 0; y < 1 + grid_height * grid_cell_size; y += grid_cell_size) {
     SDL_RenderDrawLine(renderer, 0, y, window_width, y);
   }
+  grid_render_matrix(renderer);
   SDL_RenderPresent(renderer);
 }
