@@ -1,4 +1,6 @@
 #include "grid.h"
+#include <SDL_events.h>
+#include <SDL_keycode.h>
 #include <game.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,7 +30,7 @@ int initialize_window() {
     return false;
   }
 
-  grid_load_matrix();
+  grid_generate_random();
   return true;
 }
 
@@ -70,6 +72,7 @@ void render() {
     SDL_RenderDrawLine(renderer, 0, y, window_width, y);
   }
   grid_render_matrix(renderer);
+
   SDL_RenderPresent(renderer);
 }
 

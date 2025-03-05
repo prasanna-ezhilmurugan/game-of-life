@@ -4,11 +4,8 @@ int main() {
   is_running = initialize_window();
   while (is_running) {
     handle_event();
-    /*
-     * something is wrong with my update function.
-     */
-    render();
     update();
+    render();
   }
   destroy_window();
 }
