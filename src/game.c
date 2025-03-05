@@ -1,8 +1,8 @@
 #include "grid.h"
-#include <SDL_render.h>
 #include <game.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
@@ -28,8 +28,7 @@ int initialize_window() {
     return false;
   }
 
-  grid_generate_random();
-
+  grid_load_matrix();
   return true;
 }
 
@@ -73,3 +72,5 @@ void render() {
   grid_render_matrix(renderer);
   SDL_RenderPresent(renderer);
 }
+
+void update() { grid_matrix_update(); }

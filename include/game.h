@@ -16,6 +16,7 @@ extern bool is_running;
 int initialize_window();
 void destroy_window();
 void handle_event();
+void update();
 void render();
 
 #endif

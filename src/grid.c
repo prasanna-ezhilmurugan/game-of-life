@@ -1,6 +1,9 @@
+#include <SDL_timer.h>
 #include <grid.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
+#include <unistd.h>
 
 void grid_print_matrix() {
   for (int i = 0; i < grid_width; i++) {
@@ -18,11 +21,14 @@ void grid_generate_random() {
       grid_matrix[i][j] = rand() % 2;
     }
   }
+  memcpy(grid_matrix_copy, grid_matrix, sizeof(int) * grid_width * grid_height);
 }
 
 void grid_load_matrix() {
-  grid_matrix[0][0] = 1;
-  grid_print_matrix();
+  grid_matrix[5][4] = 1;
+  grid_matrix[5][5] = 1;
+  grid_matrix[5][6] = 1;
+  memcpy(grid_matrix_copy, grid_matrix, sizeof(int) * grid_width * grid_height);
 }
 
 void grid_render_matrix(SDL_Renderer *renderer) {
@@ -43,6 +49,8 @@ void grid_render_matrix(SDL_Renderer *renderer) {
 }
 
 void grid_matrix_update() {
+  SDL_Delay(3000);
+
   for (int i = 0; i < grid_width; i++) {
     for (int j = 0; j < grid_height; j++) {
       int alive_neighbours = 0;
@@ -65,10 +73,11 @@ void grid_matrix_update() {
         alive_neighbours++;
 
       if (grid_matrix[i][j] && (alive_neighbours < 2 || alive_neighbours > 3)) {
-        grid_matrix[i][j] = 0;
+        grid_matrix_copy[i][j] = 0;
       } else if (!grid_matrix[i][j] && alive_neighbours == 3) {
-        grid_matrix[i][j] = 1;
+        grid_matrix_copy[i][j] = 1;
       }
     }
   }
+  memcpy(grid_matrix, grid_matrix_copy, sizeof(int) * grid_height * grid_width);
 }
