@@ -3,15 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-void grid_print_matrix() {
-  for (int i = 0; i < grid_width; i++) {
-    for (int j = 0; j < grid_height; j++) {
-      printf("%d ", grid_matrix[i][j]);
-    }
-    printf("\n");
-  }
-}
-
 void grid_generate_random() {
   srand(time(0));
   for (int i = 0; i < grid_width; i++) {
